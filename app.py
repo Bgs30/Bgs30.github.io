@@ -97,10 +97,53 @@ if learning_type == "Supervised Learning":
             hasil_prediksi = predict_with_model(model, input_data, label_mapping_fruit)
             st.write(f"Prediksi: **{hasil_prediksi}**")
 
+
 elif learning_type == "Unsupervised Learning":
     st.title("Prediksi dengan K-Means")
+    
+    # Dataset atau data untuk clustering
+    # Pastikan `data_to_cluster` adalah DataFrame atau array numpy yang valid
+    data_to_cluster = np.random.rand(100, 3)  # Contoh data dummy untuk clustering
 
-    # Input data untuk K-Means
+    # Hitung nilai K optimal menggunakan metode elbow
+    if st.button("Hitung Nilai K Optimal"):
+        def calculate_inertia(data):
+            from sklearn.cluster import KMeans
+            inertias = []
+            k_range = range(1, 11)  # Nilai k dari 1 hingga 10
+            for k in k_range:
+                kmeans = KMeans(n_clusters=k, random_state=42)
+                kmeans.fit(data)
+                inertias.append(kmeans.inertia_)
+            return k_range, inertias
 
+        k_range, inertias = calculate_inertia(data_to_cluster)
+
+        import matplotlib.pyplot as plt
+        plt.figure(figsize=(8, 6))
+        plt.plot(k_range, inertias, marker='o')
+        plt.xlabel("Jumlah Cluster (k)")
+        plt.ylabel("Inertia")
+        plt.title("Metode Elbow untuk Menentukan k")
+        st.pyplot(plt)
+        plt.close()  # Tutup plot setelah ditampilkan
+
+    # Slider untuk menentukan jumlah cluster
+    n_clusters = st.slider("Jumlah cluster:", min_value=2, max_value=10, value=3)
+
+    # Melakukan clustering dengan K-Means
+    def kmeans_clustering(data, n_clusters):
+        from sklearn.cluster import KMeans
+        kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+        clusters = kmeans.fit_predict(data)
+        return clusters, kmeans
+
+    clusters, kmeans_model = kmeans_clustering(data_to_cluster, n_clusters)
+
+    st.subheader(f"Hasil Clustering dengan {n_clusters} Cluster")
+    st.write("Cluster Labels:", clusters)
+    st.write("Centroid Cluster:")
+    st.write(kmeans_model.cluster_centers_)
 else:
     st.write("Pilih tipe pembelajaran untuk melanjutkan.")
+
