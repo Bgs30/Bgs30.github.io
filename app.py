@@ -64,8 +64,8 @@ if learning_type == "Supervised Learning":
 
         # Path model
         model_path = {
-            "Logistic Regression": "Dataset/fish_Lg.pkl",
-            "Perceptron": "Dataset/fish_Pc.pkl",
+            "Logistic Regression": "fish_Lg.pkl",
+            "Perceptron": "fish_Pc.pkl",
             "SVM": "fish_SVM.pkl"
         }
 
@@ -87,8 +87,8 @@ if learning_type == "Supervised Learning":
 
         # Path model
         model_path = {
-            "Logistic Regression": "Dataset/fruit_Lr.pkl",
-            "Perceptron": "Dataset/fruit_Pc.pkl",
+            "Logistic Regression": "fruit_Lr.pkl",
+            "Perceptron": "fruit_Pc.pkl",
             "SVM": "fruit_svm.pkl"
         }
         if st.button("Prediksi Buah"):
